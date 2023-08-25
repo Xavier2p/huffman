@@ -1,4 +1,4 @@
 var sourcesIndex = JSON.parse('{\
-"huffman":["",[],["heap.rs","main.rs"]]\
+"huffman":["",[],["compress.rs","decompress.rs","heap.rs","main.rs","parsing.rs"]]\
 }');
 createSourceSidebar();

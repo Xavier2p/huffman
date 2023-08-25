@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["main","push"],"mod":["heap"]};
+window.SIDEBAR_ITEMS = {"fn":["main"],"mod":["compress","decompress","heap","parsing"]};
