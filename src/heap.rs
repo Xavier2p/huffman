@@ -22,6 +22,18 @@ impl Node {
     pub fn new(value: usize, elt: char) -> Node {
         Node { value, elt }
     }
+
+    pub fn get_elt(self) -> char {
+        self.elt
+    }
+
+    pub fn get_value(self) -> usize {
+        self.value
+    }
+
+    pub fn add_one(&mut self) {
+        self.value += 1
+    }
 }
 
 /// Stores the nodes forming the heap.
@@ -56,10 +68,12 @@ impl Heap {
     pub fn push(&mut self, elt: Node) -> &Heap {
         self.nodes.push(Some(elt));
         let mut index: usize = self.nodes.len() - 1;
+
         while (index > 1) && elt.value < self.nodes[index / 2].unwrap().value {
             (self.nodes[index], self.nodes[index / 2]) = (self.nodes[index / 2], self.nodes[index]);
             index /= 2;
         }
+
         self
     }
 

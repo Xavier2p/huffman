@@ -1,13 +1,18 @@
+mod compress;
+mod decompress;
 mod heap;
+mod parsing;
+
+use clap::Parser;
 
 fn main() {
-    println!("Hello, world!");
-    push();
-}
+    let args: parsing::Args = parsing::Args::parse();
 
-fn push() {
-    let mut heap: heap::Heap = heap::Heap::new();
-    println!("{:?}", heap.nodes);
-    let heap = heap.push(heap::Node::new(1, 'a'));
-    println!("{:?}", heap.nodes);
+    let res: &str = if args.get_command() == *"compress" {
+        compress::main("test")
+    } else {
+        "Not Implemted yet"
+    };
+
+    println!("{res}");
 }
