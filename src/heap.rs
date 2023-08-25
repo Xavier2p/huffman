@@ -1,4 +1,4 @@
-//! This file contains some structs and implementations that will be useful
+//! This module contains some structs and implementations that will be useful
 //! for the whole project.
 
 /// An element of the heap, defined by its value and its elt.
@@ -63,13 +63,42 @@ impl Heap {
         self
     }
 
-    // pub fn pop(&mut self) -> Result<Node, String> {
-    //     if self.is_empty() {
-    //         Err("The heap is empty".to_string())
-    //     } else {
-    //         Ok()
-    //     }
-    // }
+    /// Removes and return the first element of the heap.
+    /// ## Returns:
+    /// - the first `Node` of the heap.
+    /// ## Raises:
+    /// - "The heap is empty" if the heap is empty
+    /// ## Return Type:
+    /// - Result<Node, String>
+    pub fn pop(&mut self) -> Result<Node, String> {
+        if self.is_empty() {
+            Err("The heap is empty".to_string())
+        } else {
+            let elt: Node = self.nodes[1].unwrap();
+            self.nodes[1] = self.nodes[self.nodes.len() - 1];
+            self.nodes.pop();
+            let length: usize = self.nodes.len() - 1;
+            let mut done: bool = false;
+            let mut index: usize = 1;
+
+            while (index <= length / 2) && !done {
+                let mut jndex: usize = index * 2;
+                if (jndex < length)
+                    && (self.nodes[jndex + 1].unwrap().value < self.nodes[jndex].unwrap().value)
+                {
+                    jndex += 1;
+                }
+                if self.nodes[index].unwrap().value > self.nodes[jndex].unwrap().value {
+                    (self.nodes[index], self.nodes[jndex]) = (self.nodes[jndex], self.nodes[index]);
+                    index = jndex;
+                } else {
+                    done = true;
+                }
+            }
+
+            Ok(elt)
+        }
+    }
 }
 
 #[cfg(test)]
@@ -78,7 +107,7 @@ mod tests {
 
     #[test]
     fn test_creation() {
-        let heap = Heap::new();
+        let heap: Heap = Heap::new();
         assert_eq!(heap.nodes[0], None);
     }
 
@@ -122,5 +151,20 @@ mod tests {
             new_heap.nodes,
             vec![None, Some(Node::new(1, 'a')), Some(Node::new(2, 'b'))]
         );
+    }
+
+    #[test]
+    fn test_pop_empty_heap() {
+        let mut heap: Heap = Heap::new();
+        assert!(heap.pop().is_err());
+    }
+
+    #[test]
+    fn test_pop() {
+        let mut heap: Heap = Heap::new();
+        let _tmp: &Heap = heap.push(Node::new(2, 'b'));
+        let _new_heap: &Heap = heap.push(Node::new(1, 'a'));
+        assert_eq!(heap.pop().ok(), Some(Node::new(1, 'a')));
+        assert_eq!(heap.nodes, vec![None, Some(Node::new(2, 'b'))]);
     }
 }
