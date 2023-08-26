@@ -2,6 +2,7 @@
 
 /// Struct of the Tree
 #[allow(dead_code)]
+#[derive(Clone)]
 pub struct Tree {
     /// The key of the node, here a char.
     key: char,
