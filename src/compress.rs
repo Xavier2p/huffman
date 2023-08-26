@@ -10,8 +10,8 @@ use crate::{heap::Heap, node::Node, tree::Tree};
 /// ## Returns:
 /// the list of frequencies: each element is a tuple where first element
 /// is the frequency of the character stored in the second part.
-fn build_frequency_list(data: &str) -> Vec<Node> {
-    let mut result: Vec<Node> = Vec::new();
+fn build_frequency_list(data: &str) -> Vec<Node<char>> {
+    let mut result: Vec<Node<char>> = Vec::new();
 
     for c in data.chars() {
         let mut found: bool = false;
@@ -32,9 +32,9 @@ fn build_frequency_list(data: &str) -> Vec<Node> {
 }
 
 /// Helper who sort the list in the right order.
-fn heap_sort(list: Vec<Node>) -> Vec<Node> {
-    let mut tmp: Heap = Heap::new();
-    let mut result: Vec<Node> = Vec::new();
+fn heap_sort<T: std::clone::Clone>(list: Vec<Node<T>>) -> Vec<Node<T>> {
+    let mut tmp: Heap<T> = Heap::new();
+    let mut result: Vec<Node<T>> = Vec::new();
 
     for value in list {
         tmp.push(value);
@@ -54,8 +54,19 @@ fn heap_sort(list: Vec<Node>) -> Vec<Node> {
 ///
 /// ## Returns:
 /// a huffman tree containing all the characters from the list in leaves.
-fn build_huffman_tree(_list: Vec<Node>) -> Tree {
-    let mut _trees: Vec<(usize, Tree)> = Vec::new();
+fn build_huffman_tree(list: Vec<Node<char>>) -> Tree {
+    let mut trees: Vec<Node<Tree>> = Vec::new();
+    for item in list {
+        trees.push(Node::new(
+            item.get_value(),
+            Tree::new(item.get_elt(), None, None),
+        ));
+    }
+
+    while trees.len() != 1 {
+        // trees = heap_sort();
+    }
+
     todo!()
 }
 
@@ -103,25 +114,21 @@ fn to_binary(_data: &str) -> (&str, usize) {
 /// ## Returns:
 /// a pair (data compressed, tree compressed) where each is a pair
 /// (string, align) with align the number of bits to reach a multiple of 8
-pub fn main(data: &str) -> &str {
-    //((&str, usize), (&str, usize)) {
+pub fn main(data: &str) -> ((&str, usize), (&str, usize)) {
     let tree: Tree = build_huffman_tree(build_frequency_list(data));
-    let _result: ((&str, usize), (&str, usize)) = (
+    (
         to_binary(encode_data(tree.clone(), data)),
         to_binary(encode_tree(tree)),
-    );
-
-    "compression in progress..."
+    )
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use test_case::test_case;
 
     const BASE_TEXT: &str = "bbaabtttaabtctce";
 
-    fn generate_base_tree() -> Vec<Node> {
+    fn generate_base_tree() -> Vec<Node<char>> {
         vec![
             Node::new(1, 'e'),
             Node::new(2, 'c'),
@@ -131,8 +138,8 @@ mod tests {
         ]
     }
 
-    #[test_case(BASE_TEXT, generate_base_tree(); "base")]
-    fn test_build_frequency_list(input: &str, result: Vec<Node>) {
-        assert_eq!(build_frequency_list(input), result);
+    #[test]
+    fn test_build_frequency_list() {
+        assert_eq!(build_frequency_list(BASE_TEXT), generate_base_tree());
     }
 }

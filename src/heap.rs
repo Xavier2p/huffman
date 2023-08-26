@@ -4,16 +4,16 @@
 use crate::node::Node;
 
 /// Stores the nodes forming the heap.
-pub struct Heap {
+pub struct Heap<T: std::clone::Clone> {
     /// The nodes of the heap.
-    pub nodes: Vec<Option<Node>>,
+    pub nodes: Vec<Option<Node<T>>>,
 }
 
 /// Implementation containing methods to play with heaps.
-impl Heap {
+impl<T: std::clone::Clone> Heap<T> {
     /// Allows to create a new heap and returns it.
     /// The heap created is just a `vec` of `None` nodes.
-    pub fn new() -> Heap {
+    pub fn new() -> Heap<T> {
         Heap { nodes: vec![None] }
     }
 
@@ -28,11 +28,13 @@ impl Heap {
     /// - `elt`: The element to push in the heap.
     /// ## Returns:
     /// The updated heap
-    pub fn push(&mut self, elt: Node) -> &Heap {
-        self.nodes.push(Some(elt));
+    pub fn push(&mut self, elt: Node<T>) -> &Heap<T> {
+        self.nodes.push(Some(elt.clone()));
         let mut index: usize = self.nodes.len() - 1;
 
-        while (index > 1) && elt.get_value() < self.nodes[index / 2].unwrap().get_value() {
+        while (index > 1)
+            && elt.clone().get_value() < self.nodes[index / 2].clone().unwrap().get_value()
+        {
             (self.nodes[index], self.nodes[index / 2]) = (self.nodes[index / 2], self.nodes[index]);
             index /= 2;
         }
@@ -45,11 +47,11 @@ impl Heap {
     /// - "The heap is empty" if the heap is empty
     /// ## Returns:
     /// the first `Node` of the heap.
-    pub fn pop(&mut self) -> Result<Node, String> {
+    pub fn pop(&mut self) -> Result<Node<T>, String> {
         if self.is_empty() {
             Err("The heap is empty".to_string())
         } else {
-            let elt: Node = self.nodes[1].unwrap();
+            let elt: Node<T> = self.nodes[1].clone().unwrap();
             self.nodes[1] = self.nodes[self.nodes.len() - 1];
             self.nodes.pop();
             let length: usize = self.nodes.len() - 1;
@@ -59,12 +61,14 @@ impl Heap {
             while (index <= length / 2) && !done {
                 let mut jndex: usize = index * 2;
                 if (jndex < length)
-                    && (self.nodes[jndex + 1].unwrap().get_value()
-                        < self.nodes[jndex].unwrap().get_value())
+                    && (self.nodes[jndex + 1].clone().unwrap().get_value()
+                        < self.nodes[jndex].clone().unwrap().get_value())
                 {
                     jndex += 1;
                 }
-                if self.nodes[index].unwrap().get_value() > self.nodes[jndex].unwrap().get_value() {
+                if self.nodes[index].clone().unwrap().get_value()
+                    > self.nodes[jndex].clone().unwrap().get_value()
+                {
                     (self.nodes[index], self.nodes[jndex]) = (self.nodes[jndex], self.nodes[index]);
                     index = jndex;
                 } else {
@@ -83,35 +87,35 @@ mod tests {
 
     #[test]
     fn test_creation() {
-        let heap: Heap = Heap::new();
+        let heap: Heap<char> = Heap::new();
         assert_eq!(heap.nodes[0], None);
     }
 
     #[test]
     fn test_is_empty() {
-        let heap: Heap = Heap::new();
+        let heap: Heap<char> = Heap::new();
         assert!(heap.is_empty());
     }
 
     #[test]
     fn test_is_not_empty() {
-        let mut heap: Heap = Heap::new();
-        let new_heap: &Heap = heap.push(Node::new(1, 'a'));
+        let mut heap: Heap<char> = Heap::new();
+        let new_heap: &Heap<char> = heap.push(Node::new(1, 'a'));
         assert!(!new_heap.is_empty());
     }
 
     #[test]
     fn test_push_first() {
-        let mut heap: Heap = Heap::new();
-        let new_heap: &Heap = heap.push(Node::new(1, 'a'));
+        let mut heap: Heap<char> = Heap::new();
+        let new_heap: &Heap<char> = heap.push(Node::new(1, 'a'));
         assert_eq!(new_heap.nodes, vec![None, Some(Node::new(1, 'a'))]);
     }
 
     #[test]
     fn test_push_last() {
-        let mut heap: Heap = Heap::new();
-        let _tmp: &Heap = heap.push(Node::new(1, 'a'));
-        let new_heap: &Heap = heap.push(Node::new(2, 'b'));
+        let mut heap: Heap<char> = Heap::new();
+        let _tmp: &Heap<char> = heap.push(Node::new(1, 'a'));
+        let new_heap: &Heap<char> = heap.push(Node::new(2, 'b'));
         assert_eq!(
             new_heap.nodes,
             vec![None, Some(Node::new(1, 'a')), Some(Node::new(2, 'b'))]
@@ -120,9 +124,9 @@ mod tests {
 
     #[test]
     fn test_push_to_first() {
-        let mut heap: Heap = Heap::new();
-        let _tmp: &Heap = heap.push(Node::new(2, 'b'));
-        let new_heap: &Heap = heap.push(Node::new(1, 'a'));
+        let mut heap: Heap<char> = Heap::new();
+        let _tmp: &Heap<char> = heap.push(Node::new(2, 'b'));
+        let new_heap: &Heap<char> = heap.push(Node::new(1, 'a'));
         assert_eq!(
             new_heap.nodes,
             vec![None, Some(Node::new(1, 'a')), Some(Node::new(2, 'b'))]
@@ -131,15 +135,15 @@ mod tests {
 
     #[test]
     fn test_pop_empty_heap() {
-        let mut heap: Heap = Heap::new();
+        let mut heap: Heap<char> = Heap::new();
         assert!(heap.pop().is_err());
     }
 
     #[test]
     fn test_pop() {
-        let mut heap: Heap = Heap::new();
-        let _tmp: &Heap = heap.push(Node::new(2, 'b'));
-        let _new_heap: &Heap = heap.push(Node::new(1, 'a'));
+        let mut heap: Heap<char> = Heap::new();
+        let _tmp: &Heap<char> = heap.push(Node::new(2, 'b'));
+        let _new_heap: &Heap<char> = heap.push(Node::new(1, 'a'));
         assert_eq!(heap.pop().ok(), Some(Node::new(1, 'a')));
         assert_eq!(heap.nodes, vec![None, Some(Node::new(2, 'b'))]);
     }

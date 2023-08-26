@@ -24,7 +24,7 @@ use clap::Parser;
 
 /// Launches the program, parses arguements and play!
 fn main() {
-    let args: parsing::Args = parsing::Args::parse();
+    let _args: parsing::Args = parsing::Args::parse();
 
     // let res: &str = if args.clone().get_command() == *"compress" {
     //     compress::main("test")
