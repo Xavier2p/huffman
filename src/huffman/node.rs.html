@@ -42,34 +42,40 @@
 <a href="#42" id="42">42</a>
 <a href="#43" id="43">43</a>
 <a href="#44" id="44">44</a>
+<a href="#45" id="45">45</a>
+<a href="#46" id="46">46</a>
+<a href="#47" id="47">47</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module contains the `Node` struct and  its implementation.
 
 /// An element of the heap, defined by its value and its elt.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq)]
-</span><span class="kw">pub struct </span>Node {
+</span><span class="kw">pub struct </span>Node&lt;T&gt;
+<span class="kw">where
+    </span>T: std::clone::Clone,
+{
     <span class="doccomment">/// For priority in the heap
     </span>value: usize,
 
     <span class="doccomment">/// The stored value (here a char)
-    </span>elt: char,
+    </span>elt: T,
 }
 
 <span class="doccomment">/// Implementation containing methods to use `Node` struct.
-</span><span class="kw">impl </span>Node {
+</span><span class="kw">impl</span>&lt;T: std::clone::Clone&gt; Node&lt;T&gt; {
     <span class="doccomment">/// Allows to create a new node for the heap and returns it.
     /// ## Arguements:
     /// - `value`
     /// - `elt`
     /// ## Returns:
     /// the new Node just created
-    </span><span class="kw">pub fn </span>new(value: usize, elt: char) -&gt; Node {
+    </span><span class="kw">pub fn </span>new(value: usize, elt: T) -&gt; Node&lt;T&gt; {
         Node { value, elt }
     }
 
     <span class="doccomment">/// Getter for the `elt` of the node.
     /// ## Retruns:
     /// the field `elt` of the node
-    </span><span class="kw">pub fn </span>get_elt(<span class="self">self</span>) -&gt; char {
+    </span><span class="kw">pub fn </span>get_elt(<span class="self">self</span>) -&gt; T {
         <span class="self">self</span>.elt
     }
 

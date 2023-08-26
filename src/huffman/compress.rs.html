@@ -136,6 +136,13 @@
 <a href="#136" id="136">136</a>
 <a href="#137" id="137">137</a>
 <a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module contains all the function to compress a text using Huffman.
 
 </span><span class="kw">use crate</span>::{heap::Heap, node::Node, tree::Tree};
@@ -148,8 +155,8 @@
 /// ## Returns:
 /// the list of frequencies: each element is a tuple where first element
 /// is the frequency of the character stored in the second part.
-</span><span class="kw">fn </span>build_frequency_list(data: <span class="kw-2">&amp;</span>str) -&gt; Vec&lt;Node&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>result: Vec&lt;Node&gt; = Vec::new();
+</span><span class="kw">fn </span>build_frequency_list(data: <span class="kw-2">&amp;</span>str) -&gt; Vec&lt;Node&lt;char&gt;&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>result: Vec&lt;Node&lt;char&gt;&gt; = Vec::new();
 
     <span class="kw">for </span>c <span class="kw">in </span>data.chars() {
         <span class="kw">let </span><span class="kw-2">mut </span>found: bool = <span class="bool-val">false</span>;
@@ -170,9 +177,9 @@
 }
 
 <span class="doccomment">/// Helper who sort the list in the right order.
-</span><span class="kw">fn </span>heap_sort(list: Vec&lt;Node&gt;) -&gt; Vec&lt;Node&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>tmp: Heap = Heap::new();
-    <span class="kw">let </span><span class="kw-2">mut </span>result: Vec&lt;Node&gt; = Vec::new();
+</span><span class="kw">fn </span>heap_sort&lt;T: std::clone::Clone&gt;(list: Vec&lt;Node&lt;T&gt;&gt;) -&gt; Vec&lt;Node&lt;T&gt;&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>tmp: Heap&lt;T&gt; = Heap::new();
+    <span class="kw">let </span><span class="kw-2">mut </span>result: Vec&lt;Node&lt;T&gt;&gt; = Vec::new();
 
     <span class="kw">for </span>value <span class="kw">in </span>list {
         tmp.push(value);
@@ -192,8 +199,19 @@
 ///
 /// ## Returns:
 /// a huffman tree containing all the characters from the list in leaves.
-</span><span class="kw">fn </span>build_huffman_tree(_list: Vec&lt;Node&gt;) -&gt; Tree {
-    <span class="kw">let </span><span class="kw-2">mut </span>_trees: Vec&lt;(usize, Tree)&gt; = Vec::new();
+</span><span class="kw">fn </span>build_huffman_tree(list: Vec&lt;Node&lt;char&gt;&gt;) -&gt; Tree {
+    <span class="kw">let </span><span class="kw-2">mut </span>trees: Vec&lt;Node&lt;Tree&gt;&gt; = Vec::new();
+    <span class="kw">for </span>item <span class="kw">in </span>list {
+        trees.push(Node::new(
+            item.get_value(),
+            Tree::new(item.get_elt(), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
+        ));
+    }
+
+    <span class="kw">while </span>trees.len() != <span class="number">1 </span>{
+        <span class="comment">// trees = heap_sort();
+    </span>}
+
     <span class="macro">todo!</span>()
 }
 
@@ -241,25 +259,21 @@
 /// ## Returns:
 /// a pair (data compressed, tree compressed) where each is a pair
 /// (string, align) with align the number of bits to reach a multiple of 8
-</span><span class="kw">pub fn </span>main(data: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>str {
-    <span class="comment">//((&amp;str, usize), (&amp;str, usize)) {
-    </span><span class="kw">let </span>tree: Tree = build_huffman_tree(build_frequency_list(data));
-    <span class="kw">let </span>_result: ((<span class="kw-2">&amp;</span>str, usize), (<span class="kw-2">&amp;</span>str, usize)) = (
+</span><span class="kw">pub fn </span>main(data: <span class="kw-2">&amp;</span>str) -&gt; ((<span class="kw-2">&amp;</span>str, usize), (<span class="kw-2">&amp;</span>str, usize)) {
+    <span class="kw">let </span>tree: Tree = build_huffman_tree(build_frequency_list(data));
+    (
         to_binary(encode_data(tree.clone(), data)),
         to_binary(encode_tree(tree)),
-    );
-
-    <span class="string">&quot;compression in progress...&quot;
-</span>}
+    )
+}
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span>test_case::test_case;
 
     <span class="kw">const </span>BASE_TEXT: <span class="kw-2">&amp;</span>str = <span class="string">&quot;bbaabtttaabtctce&quot;</span>;
 
-    <span class="kw">fn </span>generate_base_tree() -&gt; Vec&lt;Node&gt; {
+    <span class="kw">fn </span>generate_base_tree() -&gt; Vec&lt;Node&lt;char&gt;&gt; {
         <span class="macro">vec!</span>[
             Node::new(<span class="number">1</span>, <span class="string">&#39;e&#39;</span>),
             Node::new(<span class="number">2</span>, <span class="string">&#39;c&#39;</span>),
@@ -269,9 +283,9 @@
         ]
     }
 
-    <span class="attr">#[test_case(BASE_TEXT, generate_base_tree(); <span class="string">&quot;base&quot;</span>)]
-    </span><span class="kw">fn </span>test_build_frequency_list(input: <span class="kw-2">&amp;</span>str, result: Vec&lt;Node&gt;) {
-        <span class="macro">assert_eq!</span>(build_frequency_list(input), result);
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_build_frequency_list() {
+        <span class="macro">assert_eq!</span>(build_frequency_list(BASE_TEXT), generate_base_tree());
     }
 }
 </code></pre></div></section></main></body></html>

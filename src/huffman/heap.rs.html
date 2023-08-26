@@ -144,22 +144,26 @@
 <a href="#144" id="144">144</a>
 <a href="#145" id="145">145</a>
 <a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module contains some structs and implementations that will be useful
 //! for the whole project.
 
 </span><span class="kw">use </span><span class="kw">crate</span>::node::Node;
 
 <span class="doccomment">/// Stores the nodes forming the heap.
-</span><span class="kw">pub struct </span>Heap {
+</span><span class="kw">pub struct </span>Heap&lt;T: std::clone::Clone&gt; {
     <span class="doccomment">/// The nodes of the heap.
-    </span><span class="kw">pub </span>nodes: Vec&lt;<span class="prelude-ty">Option</span>&lt;Node&gt;&gt;,
+    </span><span class="kw">pub </span>nodes: Vec&lt;<span class="prelude-ty">Option</span>&lt;Node&lt;T&gt;&gt;&gt;,
 }
 
 <span class="doccomment">/// Implementation containing methods to play with heaps.
-</span><span class="kw">impl </span>Heap {
+</span><span class="kw">impl</span>&lt;T: std::clone::Clone&gt; Heap&lt;T&gt; {
     <span class="doccomment">/// Allows to create a new heap and returns it.
     /// The heap created is just a `vec` of `None` nodes.
-    </span><span class="kw">pub fn </span>new() -&gt; Heap {
+    </span><span class="kw">pub fn </span>new() -&gt; Heap&lt;T&gt; {
         Heap { nodes: <span class="macro">vec!</span>[<span class="prelude-val">None</span>] }
     }
 
@@ -174,11 +178,13 @@
     /// - `elt`: The element to push in the heap.
     /// ## Returns:
     /// The updated heap
-    </span><span class="kw">pub fn </span>push(<span class="kw-2">&amp;mut </span><span class="self">self</span>, elt: Node) -&gt; <span class="kw-2">&amp;</span>Heap {
-        <span class="self">self</span>.nodes.push(<span class="prelude-val">Some</span>(elt));
+    </span><span class="kw">pub fn </span>push(<span class="kw-2">&amp;mut </span><span class="self">self</span>, elt: Node&lt;T&gt;) -&gt; <span class="kw-2">&amp;</span>Heap&lt;T&gt; {
+        <span class="self">self</span>.nodes.push(<span class="prelude-val">Some</span>(elt.clone()));
         <span class="kw">let </span><span class="kw-2">mut </span>index: usize = <span class="self">self</span>.nodes.len() - <span class="number">1</span>;
 
-        <span class="kw">while </span>(index &gt; <span class="number">1</span>) &amp;&amp; elt.get_value() &lt; <span class="self">self</span>.nodes[index / <span class="number">2</span>].unwrap().get_value() {
+        <span class="kw">while </span>(index &gt; <span class="number">1</span>)
+            &amp;&amp; elt.clone().get_value() &lt; <span class="self">self</span>.nodes[index / <span class="number">2</span>].clone().unwrap().get_value()
+        {
             (<span class="self">self</span>.nodes[index], <span class="self">self</span>.nodes[index / <span class="number">2</span>]) = (<span class="self">self</span>.nodes[index / <span class="number">2</span>], <span class="self">self</span>.nodes[index]);
             index /= <span class="number">2</span>;
         }
@@ -191,11 +197,11 @@
     /// - &quot;The heap is empty&quot; if the heap is empty
     /// ## Returns:
     /// the first `Node` of the heap.
-    </span><span class="kw">pub fn </span>pop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Node, String&gt; {
+    </span><span class="kw">pub fn </span>pop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Node&lt;T&gt;, String&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_empty() {
             <span class="prelude-val">Err</span>(<span class="string">&quot;The heap is empty&quot;</span>.to_string())
         } <span class="kw">else </span>{
-            <span class="kw">let </span>elt: Node = <span class="self">self</span>.nodes[<span class="number">1</span>].unwrap();
+            <span class="kw">let </span>elt: Node&lt;T&gt; = <span class="self">self</span>.nodes[<span class="number">1</span>].clone().unwrap();
             <span class="self">self</span>.nodes[<span class="number">1</span>] = <span class="self">self</span>.nodes[<span class="self">self</span>.nodes.len() - <span class="number">1</span>];
             <span class="self">self</span>.nodes.pop();
             <span class="kw">let </span>length: usize = <span class="self">self</span>.nodes.len() - <span class="number">1</span>;
@@ -205,12 +211,14 @@
             <span class="kw">while </span>(index &lt;= length / <span class="number">2</span>) &amp;&amp; !done {
                 <span class="kw">let </span><span class="kw-2">mut </span>jndex: usize = index * <span class="number">2</span>;
                 <span class="kw">if </span>(jndex &lt; length)
-                    &amp;&amp; (<span class="self">self</span>.nodes[jndex + <span class="number">1</span>].unwrap().get_value()
-                        &lt; <span class="self">self</span>.nodes[jndex].unwrap().get_value())
+                    &amp;&amp; (<span class="self">self</span>.nodes[jndex + <span class="number">1</span>].clone().unwrap().get_value()
+                        &lt; <span class="self">self</span>.nodes[jndex].clone().unwrap().get_value())
                 {
                     jndex += <span class="number">1</span>;
                 }
-                <span class="kw">if </span><span class="self">self</span>.nodes[index].unwrap().get_value() &gt; <span class="self">self</span>.nodes[jndex].unwrap().get_value() {
+                <span class="kw">if </span><span class="self">self</span>.nodes[index].clone().unwrap().get_value()
+                    &gt; <span class="self">self</span>.nodes[jndex].clone().unwrap().get_value()
+                {
                     (<span class="self">self</span>.nodes[index], <span class="self">self</span>.nodes[jndex]) = (<span class="self">self</span>.nodes[jndex], <span class="self">self</span>.nodes[index]);
                     index = jndex;
                 } <span class="kw">else </span>{
@@ -229,35 +237,35 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_creation() {
-        <span class="kw">let </span>heap: Heap = Heap::new();
+        <span class="kw">let </span>heap: Heap&lt;char&gt; = Heap::new();
         <span class="macro">assert_eq!</span>(heap.nodes[<span class="number">0</span>], <span class="prelude-val">None</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_is_empty() {
-        <span class="kw">let </span>heap: Heap = Heap::new();
+        <span class="kw">let </span>heap: Heap&lt;char&gt; = Heap::new();
         <span class="macro">assert!</span>(heap.is_empty());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_is_not_empty() {
-        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap = Heap::new();
-        <span class="kw">let </span>new_heap: <span class="kw-2">&amp;</span>Heap = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
+        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap&lt;char&gt; = Heap::new();
+        <span class="kw">let </span>new_heap: <span class="kw-2">&amp;</span>Heap&lt;char&gt; = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
         <span class="macro">assert!</span>(!new_heap.is_empty());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_push_first() {
-        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap = Heap::new();
-        <span class="kw">let </span>new_heap: <span class="kw-2">&amp;</span>Heap = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
+        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap&lt;char&gt; = Heap::new();
+        <span class="kw">let </span>new_heap: <span class="kw-2">&amp;</span>Heap&lt;char&gt; = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
         <span class="macro">assert_eq!</span>(new_heap.nodes, <span class="macro">vec!</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>))]);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_push_last() {
-        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap = Heap::new();
-        <span class="kw">let </span>_tmp: <span class="kw-2">&amp;</span>Heap = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
-        <span class="kw">let </span>new_heap: <span class="kw-2">&amp;</span>Heap = heap.push(Node::new(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>));
+        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap&lt;char&gt; = Heap::new();
+        <span class="kw">let </span>_tmp: <span class="kw-2">&amp;</span>Heap&lt;char&gt; = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
+        <span class="kw">let </span>new_heap: <span class="kw-2">&amp;</span>Heap&lt;char&gt; = heap.push(Node::new(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>));
         <span class="macro">assert_eq!</span>(
             new_heap.nodes,
             <span class="macro">vec!</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>)), <span class="prelude-val">Some</span>(Node::new(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>))]
@@ -266,9 +274,9 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_push_to_first() {
-        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap = Heap::new();
-        <span class="kw">let </span>_tmp: <span class="kw-2">&amp;</span>Heap = heap.push(Node::new(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>));
-        <span class="kw">let </span>new_heap: <span class="kw-2">&amp;</span>Heap = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
+        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap&lt;char&gt; = Heap::new();
+        <span class="kw">let </span>_tmp: <span class="kw-2">&amp;</span>Heap&lt;char&gt; = heap.push(Node::new(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>));
+        <span class="kw">let </span>new_heap: <span class="kw-2">&amp;</span>Heap&lt;char&gt; = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
         <span class="macro">assert_eq!</span>(
             new_heap.nodes,
             <span class="macro">vec!</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>)), <span class="prelude-val">Some</span>(Node::new(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>))]
@@ -277,15 +285,15 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_pop_empty_heap() {
-        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap = Heap::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap&lt;char&gt; = Heap::new();
         <span class="macro">assert!</span>(heap.pop().is_err());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_pop() {
-        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap = Heap::new();
-        <span class="kw">let </span>_tmp: <span class="kw-2">&amp;</span>Heap = heap.push(Node::new(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>));
-        <span class="kw">let </span>_new_heap: <span class="kw-2">&amp;</span>Heap = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
+        <span class="kw">let </span><span class="kw-2">mut </span>heap: Heap&lt;char&gt; = Heap::new();
+        <span class="kw">let </span>_tmp: <span class="kw-2">&amp;</span>Heap&lt;char&gt; = heap.push(Node::new(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>));
+        <span class="kw">let </span>_new_heap: <span class="kw-2">&amp;</span>Heap&lt;char&gt; = heap.push(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>));
         <span class="macro">assert_eq!</span>(heap.pop().ok(), <span class="prelude-val">Some</span>(Node::new(<span class="number">1</span>, <span class="string">&#39;a&#39;</span>)));
         <span class="macro">assert_eq!</span>(heap.nodes, <span class="macro">vec!</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(Node::new(<span class="number">2</span>, <span class="string">&#39;b&#39;</span>))]);
     }
