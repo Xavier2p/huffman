@@ -2,16 +2,16 @@
 
 use clap::Parser;
 
-#[derive(Debug, Parser)]
+#[derive(Clone, Debug, Parser)]
 #[clap(about, version, author)]
 pub struct Args {
     /// Command [compress | decompress]
     #[clap(value_parser = check_command)]
     command: String,
 
-    /// Compress text
-    #[clap(long)]
-    compress: bool,
+    /// Enable verbose mode
+    #[clap(short, long)]
+    verbose: bool,
 }
 
 impl Args {

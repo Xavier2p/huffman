@@ -1,7 +1,8 @@
 //! This module contains all the function to compress a text using Huffman.
 
-use crate::heap::{Heap, Node};
+use crate::{heap::Heap, node::Node, tree::Tree};
 
+/// Creates a list of nodes, by frequency.
 fn build_frequency_list(data: &str) -> Vec<Node> {
     let mut result: Vec<Node> = Vec::new();
 
@@ -23,6 +24,7 @@ fn build_frequency_list(data: &str) -> Vec<Node> {
     heap_sort(result)
 }
 
+/// Helper who sort the list in the right order.
 fn heap_sort(list: Vec<Node>) -> Vec<Node> {
     let mut tmp: Heap = Heap::new();
     let mut result: Vec<Node> = Vec::new();
@@ -36,6 +38,11 @@ fn heap_sort(list: Vec<Node>) -> Vec<Node> {
     }
 
     result
+}
+
+fn build_huffman_tree(list: Vec<Node>) -> Tree {
+    let mut _trees: Vec<(usize, Tree)> = Vec::new();
+    Tree::new('c', None, None)
 }
 
 pub fn main(data: &str) -> &str {

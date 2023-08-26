@@ -3,6 +3,7 @@ name = "huffman"
 version = "0.1.0"
 edition = "2021"
 authors = ["Xavier2p <https://github.com/Xavier2p>"]
+description = "A simple Rust implementation of the Huffman Compression Algorithm."
 
 [dependencies]
 clap = { version = "3.2.25", features = ["derive"] }
