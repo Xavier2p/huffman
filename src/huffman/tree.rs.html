@@ -28,10 +28,12 @@
 <a href="#28" id="28">28</a>
 <a href="#29" id="29">29</a>
 <a href="#30" id="30">30</a>
+<a href="#31" id="31">31</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module contains the `Tree` struct and implementation.
 
 /// Struct of the Tree
 </span><span class="attr">#[allow(dead_code)]
+#[derive(Clone)]
 </span><span class="kw">pub struct </span>Tree {
     <span class="doccomment">/// The key of the node, here a char.
     </span>key: char,

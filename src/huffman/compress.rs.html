@@ -75,11 +75,79 @@
 <a href="#75" id="75">75</a>
 <a href="#76" id="76">76</a>
 <a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module contains all the function to compress a text using Huffman.
 
 </span><span class="kw">use crate</span>::{heap::Heap, node::Node, tree::Tree};
 
-<span class="doccomment">/// Creates a list of nodes, by frequency.
+<span class="doccomment">/// Builds a `Node` list of the character frequencies in the input.
+///
+/// ## Arguments:
+/// - `data`: the data from which we want to build the frequency list.
+///
+/// ## Returns:
+/// - the list of frequencies: each element is a tuple where first element
+/// is the frequency of the character stored in the second part.
 </span><span class="kw">fn </span>build_frequency_list(data: <span class="kw-2">&amp;</span>str) -&gt; Vec&lt;Node&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>result: Vec&lt;Node&gt; = Vec::new();
 
@@ -117,17 +185,71 @@
     result
 }
 
-<span class="kw">fn </span>build_huffman_tree(list: Vec&lt;Node&gt;) -&gt; Tree {
+<span class="doccomment">/// Processes the frequency list into a Huffman tree according to the algorithm.
+///
+/// ## Arguments:
+/// - `list`: the frequency list from `build_frequency_list()`.
+///
+/// ## Returns:
+/// - a huffman tree containing all the characters from the list in leaves.
+</span><span class="kw">fn </span>build_huffman_tree(_list: Vec&lt;Node&gt;) -&gt; Tree {
     <span class="kw">let </span><span class="kw-2">mut </span>_trees: Vec&lt;(usize, Tree)&gt; = Vec::new();
-    Tree::new(<span class="string">&#39;c&#39;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
+    <span class="macro">todo!</span>()
 }
 
-<span class="kw">pub fn </span>main(data: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>str {
-    <span class="comment">//((&amp;str, usize), (&amp;str, usize)) {
-    </span><span class="kw">let </span>_list_freq = build_frequency_list(data);
+<span class="doccomment">/// Encodes the input string to its binary string representation.
+///
+/// ## Arguments:
+/// - `tree`: the huffman tree from `build_Huffman_tree()`.
+/// - `data`: the data we want to encode.
+///
+/// ## Returns:
+/// - the binary string.
+</span><span class="kw">fn </span>encode_data(_tree: Tree, _data: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>str {
+    <span class="macro">todo!</span>()
+}
 
-    <span class="comment">// ((&quot;&quot;, 1), (&quot;&quot;, 2))
-    </span><span class="string">&quot;compression in progress...&quot;
+<span class="doccomment">/// Encodes a huffman tree to its binary representation using a preOrder traversal:
+/// - each leaf key is encoded into its binary representation on 8 bits preceded by &#39;1&#39;
+/// - each time we go left we add a &#39;0&#39; to the result
+///
+/// ## Arguments:
+/// - `tree`: the huffman tree to encode.
+///
+/// ## Returns:
+/// - a string corresponding to the binary representation of the huffman tree.
+</span><span class="kw">fn </span>encode_tree(_tree: Tree) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+    <span class="macro">todo!</span>()
+}
+
+<span class="doccomment">/// Compresses a string containing binary code to its real binary value.
+///
+/// ## Arguments:
+/// - `data`: the data to compress.
+///
+/// ## Returns:
+/// - a string corresponding to the binary input and the number of alignment bits
+</span><span class="kw">fn </span>to_binary(_data: <span class="kw-2">&amp;</span>str) -&gt; (<span class="kw-2">&amp;</span>str, usize) {
+    <span class="macro">todo!</span>()
+}
+
+<span class="doccomment">/// The main function that makes the whole compression process.
+///
+/// ## Arguments:
+/// - `data`: the data we want to encode.
+///
+/// ## Returns:
+/// - a pair (data compressed, tree compressed) where each is a pair
+/// (string, align) with align the number of bits to reach a multiple of 8
+</span><span class="kw">pub fn </span>main(data: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>str {
+    <span class="comment">//((&amp;str, usize), (&amp;str, usize)) {
+    </span><span class="kw">let </span>tree: Tree = build_huffman_tree(build_frequency_list(data));
+    <span class="kw">let </span>_result: ((<span class="kw-2">&amp;</span>str, usize), (<span class="kw-2">&amp;</span>str, usize)) = (
+        to_binary(encode_data(tree.clone(), data)),
+        to_binary(encode_tree(tree)),
+    );
+
+    <span class="string">&quot;compression in progress...&quot;
 </span>}
 
 <span class="attr">#[cfg(test)]

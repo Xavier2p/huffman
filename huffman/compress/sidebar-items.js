@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["build_frequency_list","build_huffman_tree","heap_sort","main"]};
+window.SIDEBAR_ITEMS = {"fn":["build_frequency_list","build_huffman_tree","encode_data","encode_tree","heap_sort","main","to_binary"]};
