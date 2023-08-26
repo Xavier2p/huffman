@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["Heap","Node"]};
+window.SIDEBAR_ITEMS = {"struct":["Heap"]};

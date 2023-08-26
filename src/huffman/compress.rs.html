@@ -68,11 +68,19 @@
 <a href="#68" id="68">68</a>
 <a href="#69" id="69">69</a>
 <a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module contains all the function to compress a text using Huffman.
 
-</span><span class="kw">use </span><span class="kw">crate</span>::heap::{Heap, Node};
+</span><span class="kw">use crate</span>::{heap::Heap, node::Node, tree::Tree};
 
-<span class="kw">fn </span>build_frequency_list(data: <span class="kw-2">&amp;</span>str) -&gt; Vec&lt;Node&gt; {
+<span class="doccomment">/// Creates a list of nodes, by frequency.
+</span><span class="kw">fn </span>build_frequency_list(data: <span class="kw-2">&amp;</span>str) -&gt; Vec&lt;Node&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>result: Vec&lt;Node&gt; = Vec::new();
 
     <span class="kw">for </span>c <span class="kw">in </span>data.chars() {
@@ -93,7 +101,8 @@
     heap_sort(result)
 }
 
-<span class="kw">fn </span>heap_sort(list: Vec&lt;Node&gt;) -&gt; Vec&lt;Node&gt; {
+<span class="doccomment">/// Helper who sort the list in the right order.
+</span><span class="kw">fn </span>heap_sort(list: Vec&lt;Node&gt;) -&gt; Vec&lt;Node&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>tmp: Heap = Heap::new();
     <span class="kw">let </span><span class="kw-2">mut </span>result: Vec&lt;Node&gt; = Vec::new();
 
@@ -106,6 +115,11 @@
     }
 
     result
+}
+
+<span class="kw">fn </span>build_huffman_tree(list: Vec&lt;Node&gt;) -&gt; Tree {
+    <span class="kw">let </span><span class="kw-2">mut </span>_trees: Vec&lt;(usize, Tree)&gt; = Vec::new();
+    Tree::new(<span class="string">&#39;c&#39;</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
 }
 
 <span class="kw">pub fn </span>main(data: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>str {

@@ -32,16 +32,16 @@
 
 </span><span class="kw">use </span>clap::Parser;
 
-<span class="attr">#[derive(Debug, Parser)]
+<span class="attr">#[derive(Clone, Debug, Parser)]
 #[clap(about, version, author)]
 </span><span class="kw">pub struct </span>Args {
     <span class="doccomment">/// Command [compress | decompress]
     </span><span class="attr">#[clap(value_parser = check_command)]
     </span>command: String,
 
-    <span class="doccomment">/// Compress text
-    </span><span class="attr">#[clap(long)]
-    </span>compress: bool,
+    <span class="doccomment">/// Enable verbose mode
+    </span><span class="attr">#[clap(short, long)]
+    </span>verbose: bool,
 }
 
 <span class="kw">impl </span>Args {

@@ -16,18 +16,58 @@
 <a href="#16" id="16">16</a>
 <a href="#17" id="17">17</a>
 <a href="#18" id="18">18</a>
-</pre></div><pre class="rust"><code><span class="kw">mod </span>compress;
+<a href="#19" id="19">19</a>
+<a href="#20" id="20">20</a>
+<a href="#21" id="21">21</a>
+<a href="#22" id="22">22</a>
+<a href="#23" id="23">23</a>
+<a href="#24" id="24">24</a>
+<a href="#25" id="25">25</a>
+<a href="#26" id="26">26</a>
+<a href="#27" id="27">27</a>
+<a href="#28" id="28">28</a>
+<a href="#29" id="29">29</a>
+<a href="#30" id="30">30</a>
+<a href="#31" id="31">31</a>
+<a href="#32" id="32">32</a>
+<a href="#33" id="33">33</a>
+<a href="#34" id="34">34</a>
+<a href="#35" id="35">35</a>
+<a href="#36" id="36">36</a>
+<a href="#37" id="37">37</a>
+<a href="#38" id="38">38</a>
+</pre></div><pre class="rust"><code><span class="doccomment">//! &gt; A simple Huffman Compression Algorithm implementation.
+//!
+//! ## Usage
+//! ...
+//!
+//! ## Dependencies
+//!
+//! + [`test-case`](https://crates.io/crates/test-case)
+//! + [`clap`](https://crates.io/crates/clap)
+//!
+//! ## About
+//!
+//! + Written by [Xavier2p](https://github.com/Xavier2p).
+//! + License: MIT
+//! + Repository: [xavier2p/huffman](https://github.com/Xavier2p/huffman)
+</span><span class="kw">mod </span>compress;
 <span class="kw">mod </span>decompress;
 <span class="kw">mod </span>heap;
+<span class="kw">mod </span>node;
 <span class="kw">mod </span>parsing;
+<span class="kw">mod </span>tree;
 
 <span class="kw">use </span>clap::Parser;
 
-<span class="kw">fn </span>main() {
+<span class="doccomment">/// Launches the program, parses arguements and play!
+</span><span class="kw">fn </span>main() {
     <span class="kw">let </span>args: parsing::Args = parsing::Args::parse();
 
-    <span class="kw">let </span>res: <span class="kw-2">&amp;</span>str = <span class="kw">if </span>args.get_command() == <span class="kw-2">*</span><span class="string">&quot;compress&quot; </span>{
+    <span class="kw">let </span>res: <span class="kw-2">&amp;</span>str = <span class="kw">if </span>args.clone().get_command() == <span class="kw-2">*</span><span class="string">&quot;compress&quot; </span>{
         compress::main(<span class="string">&quot;test&quot;</span>)
+    } <span class="kw">else if </span>args.get_command() == <span class="kw-2">*</span><span class="string">&quot;decompress&quot; </span>{
+        decompress::main(<span class="string">&quot;test&quot;</span>)
     } <span class="kw">else </span>{
         <span class="string">&quot;Not Implemted yet&quot;
     </span>};
