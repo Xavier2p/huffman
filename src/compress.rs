@@ -8,7 +8,7 @@ use crate::{heap::Heap, node::Node, tree::Tree};
 /// - `data`: the data from which we want to build the frequency list.
 ///
 /// ## Returns:
-/// - the list of frequencies: each element is a tuple where first element
+/// the list of frequencies: each element is a tuple where first element
 /// is the frequency of the character stored in the second part.
 fn build_frequency_list(data: &str) -> Vec<Node> {
     let mut result: Vec<Node> = Vec::new();
@@ -53,7 +53,7 @@ fn heap_sort(list: Vec<Node>) -> Vec<Node> {
 /// - `list`: the frequency list from `build_frequency_list()`.
 ///
 /// ## Returns:
-/// - a huffman tree containing all the characters from the list in leaves.
+/// a huffman tree containing all the characters from the list in leaves.
 fn build_huffman_tree(_list: Vec<Node>) -> Tree {
     let mut _trees: Vec<(usize, Tree)> = Vec::new();
     todo!()
@@ -62,11 +62,11 @@ fn build_huffman_tree(_list: Vec<Node>) -> Tree {
 /// Encodes the input string to its binary string representation.
 ///
 /// ## Arguments:
-/// - `tree`: the huffman tree from `build_Huffman_tree()`.
+/// - `tree`: the huffman tree from `build_huffman_tree()`.
 /// - `data`: the data we want to encode.
 ///
 /// ## Returns:
-/// - the binary string.
+/// the binary string.
 fn encode_data(_tree: Tree, _data: &str) -> &str {
     todo!()
 }
@@ -79,7 +79,7 @@ fn encode_data(_tree: Tree, _data: &str) -> &str {
 /// - `tree`: the huffman tree to encode.
 ///
 /// ## Returns:
-/// - a string corresponding to the binary representation of the huffman tree.
+/// a string corresponding to the binary representation of the huffman tree.
 fn encode_tree(_tree: Tree) -> &'static str {
     todo!()
 }
@@ -90,7 +90,7 @@ fn encode_tree(_tree: Tree) -> &'static str {
 /// - `data`: the data to compress.
 ///
 /// ## Returns:
-/// - a string corresponding to the binary input and the number of alignment bits
+/// a string corresponding to the binary input and the number of alignment bits
 fn to_binary(_data: &str) -> (&str, usize) {
     todo!()
 }
@@ -101,7 +101,7 @@ fn to_binary(_data: &str) -> (&str, usize) {
 /// - `data`: the data we want to encode.
 ///
 /// ## Returns:
-/// - a pair (data compressed, tree compressed) where each is a pair
+/// a pair (data compressed, tree compressed) where each is a pair
 /// (string, align) with align the number of bits to reach a multiple of 8
 pub fn main(data: &str) -> &str {
     //((&str, usize), (&str, usize)) {

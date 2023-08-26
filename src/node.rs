@@ -11,26 +11,33 @@ pub struct Node {
 }
 
 /// Implementation containing methods to use `Node` struct.
-#[allow(dead_code)]
 impl Node {
     /// Allows to create a new node for the heap and returns it.
     /// ## Arguements:
     /// - `value`
     /// - `elt`
     /// ## Returns:
-    /// - the new Node just created
+    /// the new Node just created
     pub fn new(value: usize, elt: char) -> Node {
         Node { value, elt }
     }
 
+    /// Getter for the `elt` of the node.
+    /// ## Retruns:
+    /// the field `elt` of the node
     pub fn get_elt(self) -> char {
         self.elt
     }
 
+    /// Getter for the `value` of the node.
+    /// ## Retruns:
+    /// the field `value` of the node
     pub fn get_value(self) -> usize {
         self.value
     }
 
+    /// Adds one to the value of the node.
+    /// In-place.
     pub fn add_one(&mut self) {
         self.value += 1
     }

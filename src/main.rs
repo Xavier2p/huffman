@@ -1,4 +1,4 @@
-//! > A simple Huffman Compression Algorithm implementation.
+//! A simple *Huffman Compression Algorithm* implementation.
 //!
 //! ## Usage
 //! ...
@@ -26,13 +26,13 @@ use clap::Parser;
 fn main() {
     let args: parsing::Args = parsing::Args::parse();
 
-    let res: &str = if args.clone().get_command() == *"compress" {
-        compress::main("test")
-    } else if args.get_command() == *"decompress" {
-        decompress::main("test")
-    } else {
-        "Not Implemted yet"
-    };
+    // let res: &str = if args.clone().get_command() == *"compress" {
+    //     compress::main("test")
+    // } else if args.get_command() == *"decompress" {
+    //     decompress::main("test")
+    // } else {
+    //     "Not Implemted yet"
+    // };
 
-    println!("{res}");
+    // println!("{res}");
 }

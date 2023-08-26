@@ -18,9 +18,7 @@ impl Heap {
     }
 
     /// Checks if a heap is empty or bot.
-    /// ## Return Type:
-    /// - `bool`
-    #[allow(dead_code)]
+    // #[allow(dead_code)]
     pub fn is_empty(&self) -> bool {
         self.nodes.len() == 1 && self.nodes[0].is_none()
     }
@@ -29,9 +27,7 @@ impl Heap {
     /// ## Arguments:
     /// - `elt`: The element to push in the heap.
     /// ## Returns:
-    /// - The updated heap
-    /// ## Return Type:
-    /// - `Heap`
+    /// The updated heap
     pub fn push(&mut self, elt: Node) -> &Heap {
         self.nodes.push(Some(elt));
         let mut index: usize = self.nodes.len() - 1;
@@ -45,12 +41,10 @@ impl Heap {
     }
 
     /// Removes and return the first element of the heap.
-    /// ## Returns:
-    /// - the first `Node` of the heap.
     /// ## Raises:
     /// - "The heap is empty" if the heap is empty
-    /// ## Return Type:
-    /// - Result<Node, String>
+    /// ## Returns:
+    /// the first `Node` of the heap.
     pub fn pop(&mut self) -> Result<Node, String> {
         if self.is_empty() {
             Err("The heap is empty".to_string())
