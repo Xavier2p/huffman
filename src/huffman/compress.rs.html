@@ -146,7 +146,7 @@
 /// - `data`: the data from which we want to build the frequency list.
 ///
 /// ## Returns:
-/// - the list of frequencies: each element is a tuple where first element
+/// the list of frequencies: each element is a tuple where first element
 /// is the frequency of the character stored in the second part.
 </span><span class="kw">fn </span>build_frequency_list(data: <span class="kw-2">&amp;</span>str) -&gt; Vec&lt;Node&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>result: Vec&lt;Node&gt; = Vec::new();
@@ -191,7 +191,7 @@
 /// - `list`: the frequency list from `build_frequency_list()`.
 ///
 /// ## Returns:
-/// - a huffman tree containing all the characters from the list in leaves.
+/// a huffman tree containing all the characters from the list in leaves.
 </span><span class="kw">fn </span>build_huffman_tree(_list: Vec&lt;Node&gt;) -&gt; Tree {
     <span class="kw">let </span><span class="kw-2">mut </span>_trees: Vec&lt;(usize, Tree)&gt; = Vec::new();
     <span class="macro">todo!</span>()
@@ -200,11 +200,11 @@
 <span class="doccomment">/// Encodes the input string to its binary string representation.
 ///
 /// ## Arguments:
-/// - `tree`: the huffman tree from `build_Huffman_tree()`.
+/// - `tree`: the huffman tree from `build_huffman_tree()`.
 /// - `data`: the data we want to encode.
 ///
 /// ## Returns:
-/// - the binary string.
+/// the binary string.
 </span><span class="kw">fn </span>encode_data(_tree: Tree, _data: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>str {
     <span class="macro">todo!</span>()
 }
@@ -217,7 +217,7 @@
 /// - `tree`: the huffman tree to encode.
 ///
 /// ## Returns:
-/// - a string corresponding to the binary representation of the huffman tree.
+/// a string corresponding to the binary representation of the huffman tree.
 </span><span class="kw">fn </span>encode_tree(_tree: Tree) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
     <span class="macro">todo!</span>()
 }
@@ -228,7 +228,7 @@
 /// - `data`: the data to compress.
 ///
 /// ## Returns:
-/// - a string corresponding to the binary input and the number of alignment bits
+/// a string corresponding to the binary input and the number of alignment bits
 </span><span class="kw">fn </span>to_binary(_data: <span class="kw-2">&amp;</span>str) -&gt; (<span class="kw-2">&amp;</span>str, usize) {
     <span class="macro">todo!</span>()
 }
@@ -239,7 +239,7 @@
 /// - `data`: the data we want to encode.
 ///
 /// ## Returns:
-/// - a pair (data compressed, tree compressed) where each is a pair
+/// a pair (data compressed, tree compressed) where each is a pair
 /// (string, align) with align the number of bits to reach a multiple of 8
 </span><span class="kw">pub fn </span>main(data: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>str {
     <span class="comment">//((&amp;str, usize), (&amp;str, usize)) {

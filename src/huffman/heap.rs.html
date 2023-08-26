@@ -144,12 +144,6 @@
 <a href="#144" id="144">144</a>
 <a href="#145" id="145">145</a>
 <a href="#146" id="146">146</a>
-<a href="#147" id="147">147</a>
-<a href="#148" id="148">148</a>
-<a href="#149" id="149">149</a>
-<a href="#150" id="150">150</a>
-<a href="#151" id="151">151</a>
-<a href="#152" id="152">152</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module contains some structs and implementations that will be useful
 //! for the whole project.
 
@@ -170,9 +164,7 @@
     }
 
     <span class="doccomment">/// Checks if a heap is empty or bot.
-    /// ## Return Type:
-    /// - `bool`
-    </span><span class="attr">#[allow(dead_code)]
+    </span><span class="comment">// #[allow(dead_code)]
     </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.nodes.len() == <span class="number">1 </span>&amp;&amp; <span class="self">self</span>.nodes[<span class="number">0</span>].is_none()
     }
@@ -181,9 +173,7 @@
     /// ## Arguments:
     /// - `elt`: The element to push in the heap.
     /// ## Returns:
-    /// - The updated heap
-    /// ## Return Type:
-    /// - `Heap`
+    /// The updated heap
     </span><span class="kw">pub fn </span>push(<span class="kw-2">&amp;mut </span><span class="self">self</span>, elt: Node) -&gt; <span class="kw-2">&amp;</span>Heap {
         <span class="self">self</span>.nodes.push(<span class="prelude-val">Some</span>(elt));
         <span class="kw">let </span><span class="kw-2">mut </span>index: usize = <span class="self">self</span>.nodes.len() - <span class="number">1</span>;
@@ -197,12 +187,10 @@
     </span>}
 
     <span class="doccomment">/// Removes and return the first element of the heap.
-    /// ## Returns:
-    /// - the first `Node` of the heap.
     /// ## Raises:
     /// - &quot;The heap is empty&quot; if the heap is empty
-    /// ## Return Type:
-    /// - Result&lt;Node, String&gt;
+    /// ## Returns:
+    /// the first `Node` of the heap.
     </span><span class="kw">pub fn </span>pop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Node, String&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_empty() {
             <span class="prelude-val">Err</span>(<span class="string">&quot;The heap is empty&quot;</span>.to_string())
